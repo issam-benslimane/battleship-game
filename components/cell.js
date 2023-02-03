@@ -1,21 +1,28 @@
 import { elt } from "../domhelpers.js";
 
 export default class Cell {
-  constructor(cell, ship, player, state, dispatch) {
+  constructor(cell, player, state, dispatch) {
     this.cell = cell;
-    this.ship = ship;
     this.state = state;
     this.player = player;
+    this.shipLocations = player.board.shipLocations(cell.location);
     this.dispatch = dispatch;
     this.render();
   }
 
+  isEmpty() {
+    return this.cell.isEmpty();
+  }
+
   handleClick(ev) {
-    if (this.state.wait(this.player)) return;
+    if (this.state.wait(this.player) || this.cell.attacked || this.cell.blocked)
+      return;
     let { x, y } = this.cell.location;
     if (this.state.status === "preparing") {
       if (this.cell.ship == null) return;
       this.dispatch({ type: "ROTATE", x, y });
+    } else {
+      this.dispatch({ type: "ATTACK", x, y });
     }
   }
 
@@ -26,6 +33,9 @@ export default class Cell {
       {
         "data-x": x,
         "data-y": y,
+        class: this.isEmpty()
+          ? createEmptyCell(this.cell)
+          : createShipCell(this.cell, this.shipLocations),
         onclick: (ev) => this.handleClick(ev),
       },
       createColMarker(x, y),
@@ -51,4 +61,23 @@ function createRowMarker(x, y) {
     { class: "marker marker--y" },
     elt("span", null, marker.toString())
   );
+}
+
+function createShipCell(cell, locations) {
+  let className = "ship";
+  for (let vec of locations) {
+    if (cell.location.right().equals(vec)) className += " br-0";
+    if (cell.location.left().equals(vec)) className += " bl-0";
+    if (cell.location.top().equals(vec)) className += " bt-0";
+    if (cell.location.bottom().equals(vec)) className += " bb-0";
+    if (cell.attacked) className += " ship--red";
+  }
+  return className;
+}
+
+function createEmptyCell(cell) {
+  let className = "cell";
+  if (cell.attacked) className += " cell--attacked";
+  if (cell.blocked) className += " cell--blocked";
+  return className;
 }
