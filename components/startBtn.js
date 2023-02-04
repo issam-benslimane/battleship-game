@@ -7,12 +7,20 @@ export default class StartButton {
     this.render();
   }
 
+  handleClick() {
+    if (this.status === "preparing") {
+      this.dispatch({ type: "START" });
+    } else {
+      this.dispatch({ type: "PLAY_AGAIN" });
+    }
+  }
+
   render() {
     if (this.status === "playing") return null;
     this.dom = elt(
       "button",
-      { class: "start", onclick: () => this.dispatch({ type: "START" }) },
-      "Play"
+      { class: "start", onclick: () => this.handleClick() },
+      this.status === "preparing" ? "Play" : "Play again"
     );
   }
 }

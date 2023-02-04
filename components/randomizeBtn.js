@@ -8,7 +8,7 @@ export default class RandomizeButton {
   }
 
   render() {
-    if (this.status === "playing") return null;
+    if (this.status !== "preparing") return null;
     this.dom = elt(
       "button",
       {

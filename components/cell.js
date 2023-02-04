@@ -15,13 +15,19 @@ export default class Cell {
   }
 
   handleClick(ev) {
-    if (this.state.wait(this.player) || this.cell.attacked || this.cell.blocked)
+    if (
+      this.state.wait(this.player) ||
+      this.cell.attacked ||
+      this.cell.blocked ||
+      !this.player.isAi
+    )
       return;
     let { x, y } = this.cell.location;
     if (this.state.status === "preparing") {
       if (this.cell.ship == null) return;
       this.dispatch({ type: "ROTATE", x, y });
-    } else {
+    }
+    if (this.state.status === "playing") {
       this.dispatch({ type: "ATTACK", x, y });
     }
   }
