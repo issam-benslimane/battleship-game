@@ -41,7 +41,7 @@ export default class Cell {
         "data-y": y,
         class: this.isEmpty()
           ? createEmptyCell(this.cell)
-          : createShipCell(this.cell, this.shipLocations),
+          : createShipCell(this.cell, this.player, this.shipLocations),
         onclick: (ev) => this.handleClick(ev),
       },
       createColMarker(x, y),
@@ -69,7 +69,10 @@ function createRowMarker(x, y) {
   );
 }
 
-function createShipCell(cell, locations) {
+function createShipCell(cell, player, locations) {
+  if (player.isAi) {
+    return cell.attacked ? "cell cell--red" : "cell";
+  }
   let className = "ship";
   for (let vec of locations) {
     if (cell.location.right().equals(vec)) className += " br-0";

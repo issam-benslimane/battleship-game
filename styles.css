@@ -175,7 +175,13 @@ table td {
   background-color: rgba(0, 0, 255, 0.11);
 }
 
-.ship--red::after {
+.cell--red {
+  border: 2px solid red;
+  background-color: rgba(0, 0, 255, 0.11);
+}
+
+.ship--red::after,
+.cell--red::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -186,7 +192,8 @@ table td {
   transform: rotate(45deg) translateX(-50%);
 }
 
-.ship--red::before {
+.ship--red::before,
+.cell--red::before {
   content: "";
   position: absolute;
   left: 50%;
