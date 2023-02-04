@@ -1,0 +1,250 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Remove default margin */
+body,
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd {
+  margin: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+ul[role="list"],
+ol[role="list"] {
+  list-style: none;
+}
+
+/* Set core root defaults */
+html:focus-within {
+  scroll-behavior: smooth;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  text-rendering: optimizeSpeed;
+  line-height: 1.5;
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+}
+
+/* Make images easier to work with */
+img,
+picture {
+  max-width: 100%;
+  display: block;
+}
+
+/* Inherit fonts for inputs and buttons */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+#app {
+  font-family: sans-serif;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+header {
+  padding: 1em 2em;
+  max-width: 70rem;
+  margin-inline: auto;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+header h1 {
+  margin-right: auto;
+  font-size: 1.5rem;
+  font-family: serif;
+}
+
+header div {
+  margin-right: auto;
+  background-color: #f8f8f8;
+  width: 400px;
+  padding: 0.5em;
+  border-radius: 0.5em;
+  font-size: 0.925rem;
+}
+
+main {
+  display: grid;
+  width: min(90%, 65rem);
+  margin-inline: auto;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  align-items: center;
+}
+
+.board--wait {
+  opacity: 0.4;
+}
+
+.board > p {
+  margin-top: 1.5em;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+table {
+  margin: 0;
+  border-collapse: collapse;
+  cursor: default;
+  position: relative;
+}
+
+table td {
+  border: 1px solid #b4b4ff;
+  width: 35px;
+  height: 35px;
+  position: relative;
+}
+
+.marker {
+  position: absolute;
+  text-align: right;
+}
+
+.marker--x {
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.marker--y {
+  top: 50%;
+  left: -20px;
+  transform: translateY(-50%);
+}
+
+.marker > span {
+  font-size: 0.675rem;
+}
+
+.cell--attacked::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 5px;
+  background-color: black;
+  border-radius: 50%;
+}
+
+.cell--blocked::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 5px;
+  height: 5px;
+  background-color: silver;
+  border-radius: 50%;
+}
+
+.ship {
+  border: 2px solid #00f;
+  background-color: rgba(0, 0, 255, 0.05);
+}
+
+.ship--red {
+  border: 2px solid red;
+  background-color: rgba(0, 0, 255, 0.11);
+}
+
+.ship--red::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 2px;
+  height: calc(100% + 15px);
+  background-color: red;
+  transform: rotate(45deg) translateX(-50%);
+}
+
+.ship--red::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  width: 2px;
+  height: calc(100% + 15px);
+  background-color: red;
+  transform: rotate(-45deg) translateX(-50%);
+}
+
+.br-0 {
+  border-right: 0;
+}
+
+.bl-0 {
+  border-left: 0;
+}
+
+.bt-0 {
+  border-top: 0;
+}
+
+.bb-0 {
+  border-bottom: 0;
+}
+
+.start {
+  grid-column: 1 / -1;
+  background-color: #f8f8f8;
+  border: 2px solid #b4b4ff;
+  border-radius: 0.25em;
+  min-width: 5em;
+  padding: 0.5em;
+  font-weight: 600;
+  font-family: "Courier New", Courier, monospace;
+  cursor: pointer;
+  transition: transform 0.25s;
+}
+
+.start:hover {
+  transform: scale(1.05);
+}
+
+.randomize {
+  background-color: transparent;
+  color: #0034ab;
+  border: 0;
+  border-bottom: 1px dotted #0034ab;
+  line-height: 1;
+  border-radius: 0.25em;
+  font-size: 0.925rem;
+  font-weight: 600;
+  font-family: "Courier New", Courier, monospace;
+  cursor: pointer;
+  transition: color 0.25s;
+}
+
+.randomize:hover {
+  color: rgb(82, 155, 82);
+  border-bottom: 1px dotted rgb(82, 155, 82);
+}

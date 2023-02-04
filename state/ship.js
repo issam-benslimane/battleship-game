@@ -1,23 +1,37 @@
+import { Vec } from "./vec.js";
+
 export default class Ship {
-  constructor({ length, direction = { x: 1, y: 0 } }) {
+  constructor({ name, length, direction = { x: 1, y: 0 } }) {
+    this.name = name;
     this.length = length;
-    this.direction = direction;
+    this.direction = new Vec(direction.x, direction.y);
+    this.hits = 0;
+  }
+
+  hit() {
+    this.hits++;
+  }
+
+  isSunk() {
+    return this.hits === this.length;
   }
 
   rotate() {
-    Object.entries(this.direction)
-      .reverse()
-      .forEach(([k, v]) => (this.direction[k] = v));
+    return new Ship({
+      name: this.name,
+      length: this.length,
+      direction: this.direction.rotate(),
+    });
   }
 
   equals(other_ship) {
-    return this === other_ship;
+    return this.name === other_ship.name;
   }
 
-  locationsSet() {
-    return Array.from({ length: this.length }, (_, i) => ({
-      x: this.direction.x * i,
-      y: this.direction.y * i,
-    }));
+  locations({ x, y }) {
+    let location = new Vec(x, y);
+    return Array.from({ length: this.length }, (_, i) =>
+      this.direction.times(i).plus(location)
+    );
   }
 }
